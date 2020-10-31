@@ -11,18 +11,71 @@
           <ion-title size="large">Tab 1</ion-title>
         </ion-toolbar>
       </ion-header>
-    
-      <ExploreContainer name="Tab 1 page" />
+
+      <ion-slides style="height: 50px;" pager="false" :options="slideOpts">
+        <ion-slide>
+          <div style="display: flex;width:100%">
+            <div
+              style="flex: 1;"
+              v-for="(elem,$index) in ['M','T','W','T','F','S','S']"
+              :key="$index"
+              @click="activate($index)"
+            >
+              <span :class="{ active: days[$index] === true }">{{ elem }}</span>
+            </div>
+          </div>
+        </ion-slide>
+      </ion-slides>
     </ion-content>
   </ion-page>
 </template>
 
-<script lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
-
-export default  {
+<script>
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonSlides,
+  IonSlide,
+} from '@ionic/vue'
+import { reactive } from 'vue'
+export default {
   name: 'Tab1',
-  components: { ExploreContainer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
+  components: {
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonPage,
+    IonSlides,
+    IonSlide,
+  },
+  setup() {
+    const days = reactive([true, false, false, false, false, false, false])
+    const activate = (day) => {
+      for (let i=0;i<days.length;i++){
+        if (i==day) days[i]=true
+        else days[i]=false
+      }
+    }
+    const slideOpts = {
+      initialSlide: 1,
+      speed: 400,
+      loop: true,
+    }
+    return {
+      slideOpts,
+      days,
+      activate
+    }
+  },
 }
 </script>
+
+<style>
+.active {
+  font-weight: bold;
+}
+</style>
