@@ -15,14 +15,8 @@
       <ion-slides style="height: 50px;" pager="false" :options="slideOpts">
         <ion-slide>
           <div style="display: flex;width:100%">
-            <div
-              style="flex: 1;"
-              v-for="(elem,$index) in ['M','T','W','T','F','S','S']"
-              :key="$index"
-              @click="activate($index)"
-            >
-              <span :class="{ active: days[$index] === true }">{{ elem }}</span>
-            </div>
+            <ion-button style="flex:1" v-for="(elem,$index) in ['M','T','W','T','F','S','S']"
+              :key="$index" @click="activate($index)" :color="days[$index]?'success':''">{{ elem }}</ion-button>
           </div>
         </ion-slide>
       </ion-slides>
@@ -39,6 +33,7 @@ import {
   IonContent,
   IonSlides,
   IonSlide,
+  IonButton
 } from '@ionic/vue'
 import { reactive } from 'vue'
 export default {
@@ -51,10 +46,13 @@ export default {
     IonPage,
     IonSlides,
     IonSlide,
+    IonButton
   },
   setup() {
     const days = reactive([true, false, false, false, false, false, false])
     const activate = (day) => {
+      alert("clicked")
+      console.log("should activate day",day)
       for (let i=0;i<days.length;i++){
         if (i==day) days[i]=true
         else days[i]=false
